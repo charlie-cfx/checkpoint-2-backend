@@ -10,6 +10,11 @@ export class CountryResolver {
         return CountryService.getAll();
     }
 
+    @Query(() => Country)
+    countryByCode(@Arg("code") code: string): Promise<Country | null> {
+        return CountryService.getByCode(code);
+    }
+
     @Mutation(() => Country)
     createCountry(
         @Arg("country") country: CreateCountryInputType

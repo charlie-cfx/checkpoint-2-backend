@@ -4,7 +4,15 @@ export function getAll(): Promise<Country[]> {
     return Country.find();
 }
 
-export function create(data: { code: string; name: string; emoji: string }): Promise<Country> {
+export function getByCode(code: string): Promise<Country | null> {
+    return Country.findOne({ where: { code } });
+}
+
+export function create(data: {
+    code: string;
+    name: string;
+    emoji: string;
+}): Promise<Country> {
     const country = new Country(data);
     return country.save();
 }
