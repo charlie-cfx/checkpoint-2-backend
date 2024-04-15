@@ -4,6 +4,7 @@ import { ApolloServer } from "@apollo/server";
 import { CountryResolver } from "./resolvers/country.resolver";
 import { buildSchema } from "type-graphql";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { ContinentResolver } from "./resolvers/continent.resolver";
 
 const port: number = 3001;
 
@@ -11,7 +12,7 @@ const start = async () => {
     await dataSource.initialize();
 
     const schema = await buildSchema({
-        resolvers: [CountryResolver],
+        resolvers: [CountryResolver, ContinentResolver],
         validate: { forbidUnknownValues: false },
     });
 

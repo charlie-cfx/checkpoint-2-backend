@@ -1,3 +1,4 @@
+import { Continent } from "../entities/continent";
 import { Country } from "../entities/country";
 
 export function getAll(): Promise<Country[]> {
@@ -5,14 +6,20 @@ export function getAll(): Promise<Country[]> {
 }
 
 export function getByCode(code: string): Promise<Country | null> {
-    return Country.findOne({ where: { code } });
+    return Country.findOne({ where: { code }, relations: { continent: true } });
 }
 
-export function create(data: {
+export async function create(data: {
     code: string;
     name: string;
     emoji: string;
+    continentCode: string;
 }): Promise<Country> {
     const country = new Country(data);
+    const continent = await Continent.findOneBy({ code: data.continentCode });
+
+    if (continent) {
+        country.continent = continent;
+    }
     return country.save();
 }
